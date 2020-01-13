@@ -14,6 +14,9 @@ project
 |   common -> common services, models and another
 |   assets -> config file and media files (fonts, ...)
 ```
+## How it works
+
+Data is fetched from the api given in the conifg file (assets/config/config.json). Config file contains various informations about api (name, version, path) and default pagination options such as initalPage (page to be displayed), pageSize (amount of records per page) and paginationButtonsCount (amount of pagination page buttons to be displayed).
 
 ## Development server
 

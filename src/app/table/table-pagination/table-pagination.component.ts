@@ -14,7 +14,7 @@ export class TablePaginationComponent implements OnChanges {
   @Input() items: any[];
   @Input() initialPage = config.initialPage;
   @Input() pageSize = config.pageSize;
-  @Input() maxPages = config.paginationPagesCount;
+  @Input() maxPages = config.paginationButtonsCount;
   @Output() changePage = new EventEmitter<any>(true);
 
   public pager: any;

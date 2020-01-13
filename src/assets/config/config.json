@@ -4,5 +4,5 @@
     "apiPath": "https://recruitment.hal.skygate.io",
     "initialPage": 1,
     "pageSize": 15,
-    "paginationPagesCount": 5
+    "paginationButtonsCount": 5
 }
