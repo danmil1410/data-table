@@ -1,6 +1,8 @@
-<app-table-filter (tableFiltered)="filterTable($event)"></app-table-filter>
+<app-table-filter *ngIf="companies" (tableFiltered)="filterTable($event)"></app-table-filter>
 
-<app-table-data [companies]="companiesChunk" [columns]="columns"
+<app-table-data [items]="companiesChunk" [columns]="columns"
     (tableSorted)="sortTable($event)"></app-table-data>
 
-<app-table-pagination [itemsCount]="itemsCount"></app-table-pagination>
+<app-table-pagination [items]="companies" (changePage)="onChangePage($event)"></app-table-pagination>
+
+<app-loader *ngIf="!companies"></app-loader>

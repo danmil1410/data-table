@@ -1,4 +1,4 @@
-<table class="table-container" *ngIf="companies">
+<table class="table-container" *ngIf="items">
     <thead>
         <tr class="table-header">
             <th class="table-item table-item--header" *ngFor="let column of columns" (click)="sortTable(column)">
@@ -10,10 +10,10 @@
         </tr>
     </thead>
     <tbody>
-        <ng-container *ngFor="let company of companies">
-            <tr class="table-row" *ngIf="!company.hidden">
+        <ng-container *ngFor="let item of items">
+            <tr class="table-row" *ngIf="!item.hidden">
                 <td class="table-item" *ngFor="let column of columns">
-                    {{ company[column.name] }}
+                    {{ item[column.name] }}
                 </td>
             </tr>
         </ng-container>

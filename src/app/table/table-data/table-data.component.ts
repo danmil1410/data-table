@@ -9,7 +9,7 @@ import { faSortAmountUpAlt, faSortAmountDown, IconDefinition } from '@fortawesom
   styleUrls: ['./table-data.component.sass']
 })
 export class TableDataComponent {
-  @Input() companies: Company[];
+  @Input() items: Company[];
   @Input() columns: any[];
   @Output("tableSorted") tableSorted = new EventEmitter<any>();
 

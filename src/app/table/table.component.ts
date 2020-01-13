@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { TableService } from 'src/common/services/table.service';
-
-import * as config from '../../assets/config/config.json';
 
 @Component({
   selector: 'app-table',
@@ -13,28 +11,23 @@ import * as config from '../../assets/config/config.json';
 export class TableComponent implements OnInit {
   public companiesChunk: any[];
   public columns: any[];
-  
-  public itemsCount: number;
-  public pagesRange: number[];
 
-  private currentPage: number;
   private companies: any[];
 
   constructor(
     private tableService: TableService,
-    private route: ActivatedRoute
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      if (this.companies) {
-        this.setDataChunk(+params["page"]);
-      } else {
-        this.tableService.companies.subscribe(companies => {
-          this.getData(companies, +params["page"]);
-        });
-      }
+    this.tableService.companies.subscribe(companies => {
+      this.getData(companies);
     });
+  }
+
+  public onChangePage(pager: any) {
+    this.companiesChunk = pager.newItems;
+    this.router.navigate([`/data-table/list/${pager.newPage}`]);
   }
 
   public filterTable(value: string): void {
@@ -50,8 +43,7 @@ export class TableComponent implements OnInit {
       ? (a[column.name] > b[column.name]) ? 1 : ((b[column.name] > a[column.name]) ? -1 : 0)
       : (a[column.name] > b[column.name]) ? -1 : ((b[column.name] > a[column.name]) ? 1 : 0));
 
-    this.companies = this.splitData(newTable);
-    this.companiesChunk = this.companies[this.currentPage - 1];
+    this.companies = newTable;
 
     this.columns = this.columns.map(newColumn => {
       let newSortMode;
@@ -66,43 +58,13 @@ export class TableComponent implements OnInit {
     });
   }
 
-  private getData(data: any[], currentPage: number): void {
-    this.itemsCount = data.length;
-    this.companies = this.splitData(data);
-      
+  private getData(data: any[]): void {
+    this.companies = data;
+
     if (!this.columns) {
-      this.columns = Object.keys(this.companies[0][0])
+      this.columns = Object.keys(this.companies[0])
         .map(column => ({name: column, sortMode: null}))
         .filter(column => column.name !== "hidden");
     }
-
-    this.setDataChunk(currentPage);
-  }
-
-  private setDataChunk(currentPage: number): void {
-    if (currentPage > this.itemsCount) {
-      this.currentPage = 1;
-    }
-
-    this.currentPage = currentPage;
-    this.companiesChunk = this.companies[this.currentPage - 1];
-  }
-
-  private splitData(data: any[]): any[] {
-    // Items per chunk
-    const pageSize = config.pageSize;
-
-    return data.reduce((resultArray, item, index) => { 
-      const chunkIndex = Math.floor(index / pageSize)
-
-      if (!resultArray[chunkIndex]) {
-        // Start a new chunk
-        resultArray[chunkIndex] = []
-      }
-
-      resultArray[chunkIndex].push(item)
-
-      return resultArray
-    }, []);
   }
 }

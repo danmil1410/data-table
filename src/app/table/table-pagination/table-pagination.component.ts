@@ -1,10 +1,9 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 
 import { faAngleLeft, faAngleRight, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
 
 import * as config from '../../../assets/config/config.json'
-import { TableService } from 'src/common/services/table.service.js';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-table-pagination',
@@ -12,27 +11,35 @@ import { TableService } from 'src/common/services/table.service.js';
   styleUrls: ['./table-pagination.component.sass']
 })
 export class TablePaginationComponent implements OnChanges {
-  @Input() itemsCount: number;
+  @Input() items: any[];
+  @Input() initialPage = config.initialPage;
+  @Input() pageSize = config.pageSize;
+  @Input() maxPages = config.paginationPagesCount;
+  @Output() changePage = new EventEmitter<any>(true);
 
   public pager: any;
   public faAngleLeft: IconDefinition = faAngleLeft;
   public faAngleRight: IconDefinition = faAngleRight;
 
-  constructor(private router: Router) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!this.pager && changes.itemsCount.currentValue) {
-      this.setPage(1);
+    // Reset page if items array has changed
+    if (changes.items.currentValue !== changes.items.previousValue) {
+        this.route.params.subscribe(params => {
+          this.setPage(+params["page"]);
+      });
     }
   }
-  
+
   public setPage(pageNumber: number): void {
     // Get new pager object for specified page
     this.pager = this.paginate(
-      this.itemsCount, pageNumber, config.pageSize, config.paginationPagesCount);
+      this.items.length, pageNumber, this.pageSize, this.maxPages);
 
-    // Navigate to another page
-    this.router.navigate([`/data-table/list/${this.pager.currentPage}`]);
+    const pageOfItems = this.items.slice(this.pager.startIndex, this.pager.endIndex + 1);
+
+    this.changePage.emit({newItems: pageOfItems, newPage: this.pager.currentPage});
   }
 
   private paginate(
@@ -75,18 +82,24 @@ export class TablePaginationComponent implements OnChanges {
           }
       }
 
+      // Calculate start and end item indexes
+      let startIndex = (currentPage - 1) * pageSize;
+      let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
+
       // Create an array of pages for ngFor loop
       let pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
 
       // Return object with all pager properties required by the view
       return {
-          totalItems: totalItems,
-          currentPage: currentPage,
-          pageSize: pageSize,
-          totalPages: totalPages,
-          startPage: startPage,
-          endPage: endPage,
-          pages: pages
+          totalItems,
+          currentPage,
+          pageSize,
+          totalPages,
+          startPage,
+          endPage,
+          startIndex,
+          endIndex,
+          pages
       };
 }
 

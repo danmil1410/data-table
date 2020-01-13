@@ -1,6 +1,19 @@
 # DataTable
 
+Simple Angular app for fetching nad displaying data in a table format. App supports filtering and paginating.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.21.
+
+## Before start
+
+You `must` run `npm install` to install all libraries!!
+
+## Project main structure
+```
+project
+|   app -> main app files (components, modules, ...)
+|   common -> common services, models and another
+|   assets -> config file and media files (fonts, ...)
+```
 
 ## Development server
 
