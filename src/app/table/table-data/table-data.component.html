@@ -1,0 +1,21 @@
+<table class="table-container" *ngIf="companies">
+    <thead>
+        <tr class="table-header">
+            <th class="table-item table-item--header" *ngFor="let column of columns" (click)="sortTable(column)">
+                {{ camelToSnakeCase(column.name) }}
+                <fa-icon *ngIf="column.sortMode"
+                    [icon]="column.sortMode === 'desc' ? faSortAmountDown : faSortAmountUp">
+                </fa-icon>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let company of companies">
+            <tr class="table-row" *ngIf="!company.hidden">
+                <td class="table-item" *ngFor="let column of columns">
+                    {{ company[column.name] }}
+                </td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>

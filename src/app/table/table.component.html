@@ -1,0 +1,6 @@
+<app-table-filter (tableFiltered)="filterTable($event)"></app-table-filter>
+
+<app-table-data [companies]="companiesChunk" [columns]="columns"
+    (tableSorted)="sortTable($event)"></app-table-data>
+
+<app-table-pagination [itemsCount]="itemsCount"></app-table-pagination>

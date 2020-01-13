@@ -30,6 +30,11 @@
             "styles": [
               "src/styles.sass"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/common/styles"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -95,6 +100,11 @@
             "styles": [
               "src/styles.sass"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/common/styles"
+              ]
+            },
             "scripts": []
           }
         },

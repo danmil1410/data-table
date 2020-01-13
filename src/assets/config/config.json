@@ -1,0 +1,7 @@
+{
+    "appName": "DataTable",
+    "appVersion": "1.0",
+    "apiPath": "https://recruitment.hal.skygate.io",
+    "pageSize": 15,
+    "paginationPagesCount": 5
+}

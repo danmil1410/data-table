@@ -1,0 +1,23 @@
+<section *ngIf="pager" class="pagination-container">
+    <button [ngClass]="{ 'pagination-button--disabled':pager.currentPage === 1}"
+        class="pagination-button first-item" (click)="setPage(1)">
+        First
+    </button>
+    <button [ngClass]="{ 'pagination-button--disabled':pager.currentPage === 1}"
+        class="pagination-button previous-item" (click)="setPage(pager.currentPage - 1)">
+        Previous
+    </button>
+    <button *ngFor="let page of pager.pages"
+        [ngClass]="{'pagination-button--active':pager.currentPage === page}" 
+        class="pagination-button number-item" (click)="setPage(page)">
+        {{page}}
+    </button>
+    <button [ngClass]="{ 'pagination-button--disabled':pager.currentPage === pager.totalPages}"
+        class="pagination-button next-item" (click)="setPage(pager.currentPage + 1)">
+        Next
+    </button>
+    <button [ngClass]="{ 'pagination-button--disabled':pager.currentPage === pager.totalPages}"
+        class="pagination-button last-item" (click)="setPage(pager.totalPages)">
+        Last
+    </button>
+</section>

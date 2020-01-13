@@ -1,0 +1,35 @@
+@import 'fonts'
+@import 'variables'
+
+:host
+    grid-column: 2/3
+    margin-top: 3em
+    padding: 0 3em
+    
+    .table-container
+        width: 100%
+        border-collapse: collapse
+        text-align: left
+
+        .table-header
+            background-color: $primary-color
+            color: $secondary-color
+            text-transform: uppercase
+
+            .table-item
+                cursor: pointer
+
+        .table-row
+            background-color: $primary-accent-color
+            color: darken($primary-accent-color, 75%)
+
+            &:nth-child(even)
+                background-color: $secondary-accent-color
+                color: darken($primary-accent-color, 75%)
+
+        .table-item
+            padding: 10px
+            font-family: "Open Sans Semibold"
+
+            &--header
+                font-family: "Open Sans Bold"
